@@ -13,12 +13,14 @@ class Layout extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
+            flex: 1,
             child: Container(
               color: Theme.of(context).colorScheme.secondary,
             ),
           ),
           body,
           Expanded(
+            flex: 1,
             child: Container(
               color: Theme.of(context).colorScheme.secondary,
             ),
