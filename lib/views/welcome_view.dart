@@ -15,7 +15,7 @@ class WelcomeView extends StatelessWidget {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const QuestionView()),
+              MaterialPageRoute(builder: (context) => QuestionView()),
             );
           },
         ),

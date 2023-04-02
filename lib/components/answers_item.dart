@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class QuizAnswer extends StatelessWidget {
+class AnswersItem extends StatelessWidget {
   final String answer;
   final Function() onTap;
-  final bool? invalid;
-  const QuizAnswer({
+  final bool? isValid;
+  const AnswersItem({
     super.key,
     required this.answer,
     required this.onTap,
-    this.invalid,
+    this.isValid,
   });
 
   @override
@@ -17,24 +17,23 @@ class QuizAnswer extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: invalid == true
+        side: isValid == false
             ? BorderSide(color: errorColor, width: 3)
-            : invalid == false
+            : isValid == true
                 ? const BorderSide(color: Colors.green, width: 3)
                 : BorderSide.none,
       ),
       child: ListTile(
-        dense: true,
         leading: Icon(
-          invalid == true
+          isValid == false
               ? Icons.close
-              : invalid == false
+              : isValid == true
                   ? Icons.check_box_outlined
                   : Icons.check_box_outline_blank,
         ),
-        iconColor: invalid == true
+        iconColor: isValid == false
             ? errorColor
-            : invalid == false
+            : isValid == true
                 ? Colors.green
                 : null,
         title: Text(answer),
