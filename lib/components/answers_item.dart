@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class AnswersItem extends StatelessWidget {
   final String answer;
   final Function() onTap;
-  final bool? isValid;
+  final bool isSelected;
+  final bool isValid;
   const AnswersItem({
     super.key,
     required this.answer,
     required this.onTap,
-    this.isValid,
+    required this.isSelected,
+    required this.isValid,
   });
 
   @override
@@ -17,25 +19,25 @@ class AnswersItem extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: isValid == false
-            ? BorderSide(color: errorColor, width: 3)
-            : isValid == true
-                ? const BorderSide(color: Colors.green, width: 3)
-                : BorderSide.none,
+        side: isSelected == false
+            ? BorderSide.none
+            : isValid == false
+                ? BorderSide(color: errorColor, width: 3)
+                : const BorderSide(color: Colors.green, width: 3),
       ),
       child: ListTile(
         leading: Icon(
-          isValid == false
-              ? Icons.close
-              : isValid == true
-                  ? Icons.check_box_outlined
-                  : Icons.check_box_outline_blank,
+          isSelected == false
+              ? Icons.check_box_outline_blank
+              : isValid == false
+                  ? Icons.close
+                  : Icons.check_box_outlined,
         ),
-        iconColor: isValid == false
-            ? errorColor
-            : isValid == true
-                ? Colors.green
-                : null,
+        iconColor: isSelected == false
+            ? null
+            : isValid == false
+                ? errorColor
+                : Colors.green,
         title: Text(answer),
         onTap: onTap,
       ),

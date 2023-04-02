@@ -21,16 +21,29 @@ class Answers extends StatefulWidget {
 
 class _AnswersState extends State<Answers> {
   int index = 0;
+  int? indexSelected;
+  final random = Random();
+  int next(int min, int max) => min + random.nextInt(max - min);
+
+  late QuizEntry quizEntry;
+  late int indexCorrectAnswer;
+  late List<String> answers;
+
+  void setQuizState() {
+    indexCorrectAnswer = next(0, 4);
+    quizEntry = widget.quiz[index];
+    answers = quizEntry.incorrectAnswers;
+    answers.insert(indexCorrectAnswer, quizEntry.correctAnswer);
+  }
+
+  @override
+  void initState() {
+    setQuizState();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final random = Random();
-    int next(int min, int max) => min + random.nextInt(max - min);
-    final QuizEntry quizEntry = widget.quiz[index];
-    final indexCorrectAnswer = next(0, 4);
-    var answers = quizEntry.incorrectAnswers;
-    answers.insert(indexCorrectAnswer, quizEntry.correctAnswer);
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -48,14 +61,23 @@ class _AnswersState extends State<Answers> {
           ),
         ),
         Column(
-          children: answers
-              .map(
-                (e) => AnswersItem(
-                  answer: e,
-                  onTap: () {},
-                ),
-              )
-              .toList(),
+          children: answers.asMap().entries.map((answer) {
+            final isValid = answer.key == indexCorrectAnswer;
+            return AnswersItem(
+              isValid: answer.key == indexCorrectAnswer,
+              answer: answer.value,
+              isSelected: answer.key == indexSelected ||
+                  (indexSelected != null && isValid),
+              onTap: () {
+                if (indexSelected != null) {
+                  return;
+                }
+                setState(() {
+                  indexSelected = answer.key;
+                });
+              },
+            );
+          }).toList(),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -74,7 +96,9 @@ class _AnswersState extends State<Answers> {
                     );
                   } else {
                     setState(() {
+                      indexSelected = null;
                       index++;
+                      setQuizState();
                     });
                   }
                 },
