@@ -1,1 +1,1 @@
-const kNumberOfQuestions = 10;
+const kNumberOfQuestions = 6;

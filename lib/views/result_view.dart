@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/layout.dart';
+import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:flutter_quiz/views/welcome_view.dart';
+import 'package:provider/provider.dart';
 
 class ResultView extends StatelessWidget {
   const ResultView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final correctAnswers =
+        Provider.of<CorrectAnswerStore>(context, listen: false).correctAnswers;
     return Layout(
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 100.0, horizontal: 20),
         child: Column(
           children: [
             Text(
-              // 'Congrats 🎉 \nYou made no mistake.',
-              'Your score is 6 of 10 🤯.',
+              correctAnswers == kNumberOfQuestions
+                  ? 'Congrats 🎉 \nYou made no mistake.'
+                  : 'Your score is $correctAnswers of $kNumberOfQuestions 🤯.',
               style: Theme.of(context).textTheme.displaySmall,
               textAlign: TextAlign.center,
             ),
@@ -31,6 +37,9 @@ class ResultView extends StatelessWidget {
                     textStyle: const TextStyle(fontSize: 17),
                   ),
                   onPressed: () {
+                    Provider.of<CorrectAnswerStore>(context, listen: false)
+                        .reset();
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -43,6 +52,9 @@ class ResultView extends StatelessWidget {
                 ElevatedButton(
                   child: const Text('Try again'),
                   onPressed: () {
+                    Provider.of<CorrectAnswerStore>(context, listen: false)
+                        .reset();
+
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

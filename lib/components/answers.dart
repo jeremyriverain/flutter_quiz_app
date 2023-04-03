@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quiz/components/answers_item.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
+import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:flutter_quiz/views/result_view.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'package:provider/provider.dart';
 
 class Answers extends StatefulWidget {
   final List<QuizEntry> quiz;
@@ -72,9 +74,14 @@ class _AnswersState extends State<Answers> {
                 if (indexSelected != null) {
                   return;
                 }
+
                 setState(() {
                   indexSelected = answer.key;
                 });
+                if (indexCorrectAnswer == indexSelected) {
+                  Provider.of<CorrectAnswerStore>(context, listen: false)
+                      .increment();
+                }
               },
             );
           }).toList(),
