@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/components/answers.dart';
-import 'package:flutter_quiz/layout.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/repository.dart';
 
@@ -11,7 +10,7 @@ class QuestionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
+    return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
         child: FutureBuilder(
@@ -28,7 +27,9 @@ class QuestionView extends StatelessWidget {
               final quiz = snapshot.data;
               if (snapshot.connectionState == ConnectionState.waiting ||
                   quiz == null) {
-                return const CircularProgressIndicator();
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
 
               return Answers(quiz: quiz);

@@ -26,6 +26,7 @@ class _AnswersState extends State<Answers> {
   int? indexSelected;
   final random = Random();
   int next(int min, int max) => min + random.nextInt(max - min);
+  bool canAnswerNextQuestion = false;
 
   late QuizEntry quizEntry;
   late int indexCorrectAnswer;
@@ -46,74 +47,84 @@ class _AnswersState extends State<Answers> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('${index + 1} of $kNumberOfQuestions Question'),
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.only(top: 12.0, bottom: 12),
-          child: Column(
-            children: [
-              Text(
-                HtmlUnescape().convert(quizEntry.question),
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 50),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text('${index + 1} of $kNumberOfQuestions Question'),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0, bottom: 12),
+            child: Column(
+              children: [
+                Text(
+                  HtmlUnescape().convert(quizEntry.question),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ],
+            ),
           ),
-        ),
-        Column(
-          children: answers.asMap().entries.map((answer) {
-            final isValid = answer.key == indexCorrectAnswer;
-            return AnswersItem(
-              isValid: answer.key == indexCorrectAnswer,
-              answer: answer.value,
-              isSelected: answer.key == indexSelected ||
-                  (indexSelected != null && isValid),
-              onTap: () {
-                if (indexSelected != null) {
-                  return;
-                }
+          Column(
+            children: answers.asMap().entries.map((answer) {
+              final isValid = answer.key == indexCorrectAnswer;
+              return AnswersItem(
+                isValid: answer.key == indexCorrectAnswer,
+                answer: answer.value,
+                isSelected: answer.key == indexSelected ||
+                    (indexSelected != null && isValid),
+                onTap: () {
+                  if (indexSelected != null) {
+                    return;
+                  }
 
-                setState(() {
-                  indexSelected = answer.key;
-                });
-                if (indexCorrectAnswer == indexSelected) {
-                  Provider.of<CorrectAnswerStore>(context, listen: false)
-                      .increment();
-                }
-              },
-            );
-          }).toList(),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0, top: 10),
-              child: ElevatedButton(
-                child: const Text('Next'),
-                onPressed: () {
-                  if (index + 1 == kNumberOfQuestions) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ResultView(),
-                      ),
-                    );
-                  } else {
-                    setState(() {
-                      indexSelected = null;
-                      index++;
-                      setQuizState();
-                    });
+                  setState(() {
+                    indexSelected = answer.key;
+                    canAnswerNextQuestion = true;
+                  });
+                  if (indexCorrectAnswer == indexSelected) {
+                    Provider.of<CorrectAnswerStore>(context, listen: false)
+                        .increment();
                   }
                 },
-              ),
+              );
+            }).toList(),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0, top: 10),
+                  child: ElevatedButton(
+                    onPressed: canAnswerNextQuestion
+                        ? () {
+                            if (index + 1 == kNumberOfQuestions) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ResultView(),
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                indexSelected = null;
+                                index++;
+                                canAnswerNextQuestion = false;
+                                setQuizState();
+                              });
+                            }
+                          }
+                        : null,
+                    child: const Text('Next'),
+                  ),
+                ),
+              ],
             ),
-          ],
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
