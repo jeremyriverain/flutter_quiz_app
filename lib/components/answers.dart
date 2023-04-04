@@ -32,7 +32,7 @@ class _AnswersState extends State<Answers> {
   late int indexCorrectAnswer;
   late List<String> answers;
 
-  void setQuizState() {
+  void setQuizEntryState() {
     indexCorrectAnswer = next(0, 4);
     quizEntry = widget.quiz[index];
     answers = quizEntry.incorrectAnswers;
@@ -41,7 +41,7 @@ class _AnswersState extends State<Answers> {
 
   @override
   void initState() {
-    setQuizState();
+    setQuizEntryState();
     super.initState();
   }
 
@@ -112,7 +112,7 @@ class _AnswersState extends State<Answers> {
                                 indexSelected = null;
                                 index++;
                                 canAnswerNextQuestion = false;
-                                setQuizState();
+                                setQuizEntryState();
                               });
                             }
                           }

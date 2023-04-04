@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
-import 'package:flutter_quiz/views/welcome_view.dart';
+import 'package:flutter_quiz/views/question_view.dart';
 import 'package:provider/provider.dart';
 
 class ResultView extends StatelessWidget {
@@ -31,11 +31,6 @@ class ResultView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    foregroundColor: Colors.white,
-                    textStyle: const TextStyle(fontSize: 17),
-                  ),
                   onPressed: () {
                     Provider.of<CorrectAnswerStore>(context, listen: false)
                         .reset();
@@ -43,25 +38,11 @@ class ResultView extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const WelcomeView(),
+                        builder: (context) => QuestionView(),
                       ),
                     );
                   },
                   child: const Text('Start new quiz'),
-                ),
-                ElevatedButton(
-                  child: const Text('Try again'),
-                  onPressed: () {
-                    Provider.of<CorrectAnswerStore>(context, listen: false)
-                        .reset();
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const WelcomeView(),
-                      ),
-                    );
-                  },
                 ),
               ],
             ),

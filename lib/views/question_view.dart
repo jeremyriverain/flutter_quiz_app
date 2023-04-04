@@ -17,11 +17,13 @@ class QuestionView extends StatelessWidget {
             future: quizRepository.fetchQuiz(),
             builder: (context, AsyncSnapshot<List<QuizEntry>> snapshot) {
               if (snapshot.hasError) {
-                return Text(
-                  'Une erreur est survenue pendant la récupération du quiz.',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
+                return Center(
+                  child: Text(
+                    'An error occured while fetching the quiz.',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                  ),
                 );
               }
               final quiz = snapshot.data;
