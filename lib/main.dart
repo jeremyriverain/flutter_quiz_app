@@ -8,7 +8,7 @@ void main() {
   runApp(const MyApp());
 }
 
-const kPrimaryColor = Color.fromRGBO(188, 0, 74, 1.0);
+const kPrimaryColor = Color(0xFF5472ec);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -25,13 +25,21 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorSchemeSeed: kPrimaryColor,
           useMaterial3: true,
+          progressIndicatorTheme: const ProgressIndicatorThemeData(
+            color: Colors.white,
+          ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              backgroundColor: kPrimaryColor,
-              foregroundColor: Colors.white,
-              textStyle: const TextStyle(fontSize: 17),
+              textStyle: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: Colors.white,
+                displayColor: Colors.white,
+              ),
         ),
         home: const WelcomeView(),
       ),

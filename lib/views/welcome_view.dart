@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/layouts/default_layout.dart';
 import 'package:flutter_quiz/views/question_view.dart';
 
 class WelcomeView extends StatelessWidget {
@@ -6,8 +7,8 @@ class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(builder: (context) {
+    return DefaultLayout(
+      child: Builder(builder: (context) {
         return Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 100.0),

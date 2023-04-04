@@ -26,19 +26,18 @@ class AnswersItem extends StatelessWidget {
                 : const BorderSide(color: Colors.green, width: 3),
       ),
       child: ListTile(
-        leading: Icon(
-          isSelected == false
-              ? Icons.check_box_outline_blank
-              : isValid == false
-                  ? Icons.close
-                  : Icons.check_box_outlined,
-        ),
         iconColor: isSelected == false
             ? null
             : isValid == false
                 ? errorColor
                 : Colors.green,
-        title: Text(answer),
+        title: Text(
+          answer,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Theme.of(context).primaryColor,
+              ),
+          textAlign: TextAlign.center,
+        ),
         onTap: onTap,
       ),
     );

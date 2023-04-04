@@ -11,9 +11,11 @@ class QuizEntry {
 
   factory QuizEntry.fromJSON(Map<String, dynamic> json) {
     return QuizEntry(
-      question: json['question'],
-      correctAnswer: json['correct_answer'],
-      incorrectAnswers: List<String>.from(json['incorrect_answers']),
+      question: Uri.decodeComponent(json['question']),
+      correctAnswer: Uri.decodeComponent(json['correct_answer']),
+      incorrectAnswers: List<String>.from(json['incorrect_answers'])
+          .map((e) => Uri.decodeComponent(e))
+          .toList(),
     );
   }
 }

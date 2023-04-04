@@ -6,7 +6,6 @@ import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:flutter_quiz/views/result_view.dart';
-import 'package:html_unescape/html_unescape.dart';
 import 'package:provider/provider.dart';
 
 class Answers extends StatefulWidget {
@@ -59,7 +58,7 @@ class _AnswersState extends State<Answers> {
             child: Column(
               children: [
                 Text(
-                  HtmlUnescape().convert(quizEntry.question),
+                  quizEntry.question,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],

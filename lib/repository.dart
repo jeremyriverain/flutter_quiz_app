@@ -10,7 +10,7 @@ class Repository {
   }) async {
     final response = await http.get(
       Uri.parse(
-          'https://opentdb.com/api.php?amount=$numberOfQuestions&difficulty=easy&type=multiple'),
+          'https://opentdb.com/api.php?amount=$numberOfQuestions&difficulty=easy&type=multiple&encode=url3986'),
     );
 
     if (response.statusCode == 200) {
