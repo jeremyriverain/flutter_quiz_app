@@ -70,7 +70,7 @@ class AnswersItem extends StatelessWidget {
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 18.0, vertical: 18),
+                        horizontal: 5.0, vertical: 18),
                     child: Text(
                       answer,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(

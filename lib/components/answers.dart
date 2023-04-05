@@ -105,8 +105,12 @@ class _AnswersState extends State<Answers> {
                             if (index + 1 == kNumberOfQuestions) {
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ResultView(),
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const ResultView(),
+                                  transitionDuration: Duration.zero,
+                                  reverseTransitionDuration: Duration.zero,
                                 ),
                               );
                             } else {

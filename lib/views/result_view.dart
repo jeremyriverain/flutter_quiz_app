@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/layouts/default_layout.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
-import 'package:flutter_quiz/views/question_view.dart';
+import 'package:flutter_quiz/views/welcome_view.dart';
 import 'package:provider/provider.dart';
 
 class ResultView extends StatelessWidget {
@@ -39,7 +39,7 @@ class ResultView extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => QuestionView(),
+                        builder: (context) => const WelcomeView(),
                       ),
                     );
                   },
