@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class DefaultLayout extends StatelessWidget {
+class MainLayout extends StatelessWidget {
   final Widget child;
-  const DefaultLayout({
+  const MainLayout({
     super.key,
     required this.child,
   });

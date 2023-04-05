@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/components/answers.dart';
-import 'package:flutter_quiz/layouts/default_layout.dart';
+import 'package:flutter_quiz/components/quiz_item.dart';
+import 'package:flutter_quiz/layouts/main_layout.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/repository.dart';
 
@@ -11,7 +11,7 @@ class QuestionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
+    return MainLayout(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
         child: FutureBuilder(
@@ -35,7 +35,7 @@ class QuestionView extends StatelessWidget {
                 );
               }
 
-              return Answers(quiz: quiz);
+              return QuizItem(quiz: quiz);
             }),
       ),
     );

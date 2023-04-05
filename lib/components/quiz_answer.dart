@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AnswersItem extends StatelessWidget {
+class QuizAnswer extends StatelessWidget {
   final String answer;
   final Function() onTap;
   final bool isSelected;
   final bool isValid;
-  const AnswersItem({
+  const QuizAnswer({
     super.key,
     required this.answer,
     required this.onTap,

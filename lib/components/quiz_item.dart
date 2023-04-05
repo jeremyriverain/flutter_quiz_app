@@ -1,26 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/components/answers_item.dart';
+import 'package:flutter_quiz/components/quiz_answer.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:flutter_quiz/views/result_view.dart';
 import 'package:provider/provider.dart';
 
-class Answers extends StatefulWidget {
+class QuizItem extends StatefulWidget {
   final List<QuizEntry> quiz;
 
-  const Answers({
+  const QuizItem({
     super.key,
     required this.quiz,
   });
 
   @override
-  State<Answers> createState() => _AnswersState();
+  State<QuizItem> createState() => _QuizItemState();
 }
 
-class _AnswersState extends State<Answers> {
+class _QuizItemState extends State<QuizItem> {
   int index = 0;
   int? indexSelected;
   final random = Random();
@@ -69,7 +69,7 @@ class _AnswersState extends State<Answers> {
               final isValid = answer.key == indexCorrectAnswer;
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6.0),
-                child: AnswersItem(
+                child: QuizAnswer(
                   isValid: answer.key == indexCorrectAnswer,
                   answer: answer.value,
                   isSelected: answer.key == indexSelected ||
