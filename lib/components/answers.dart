@@ -67,25 +67,28 @@ class _AnswersState extends State<Answers> {
           Column(
             children: answers.asMap().entries.map((answer) {
               final isValid = answer.key == indexCorrectAnswer;
-              return AnswersItem(
-                isValid: answer.key == indexCorrectAnswer,
-                answer: answer.value,
-                isSelected: answer.key == indexSelected ||
-                    (indexSelected != null && isValid),
-                onTap: () {
-                  if (indexSelected != null) {
-                    return;
-                  }
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                child: AnswersItem(
+                  isValid: answer.key == indexCorrectAnswer,
+                  answer: answer.value,
+                  isSelected: answer.key == indexSelected ||
+                      (indexSelected != null && isValid),
+                  onTap: () {
+                    if (indexSelected != null) {
+                      return;
+                    }
 
-                  setState(() {
-                    indexSelected = answer.key;
-                    canAnswerNextQuestion = true;
-                  });
-                  if (indexCorrectAnswer == indexSelected) {
-                    Provider.of<CorrectAnswerStore>(context, listen: false)
-                        .increment();
-                  }
-                },
+                    setState(() {
+                      indexSelected = answer.key;
+                      canAnswerNextQuestion = true;
+                    });
+                    if (indexCorrectAnswer == indexSelected) {
+                      Provider.of<CorrectAnswerStore>(context, listen: false)
+                          .increment();
+                    }
+                  },
+                ),
               );
             }).toList(),
           ),
