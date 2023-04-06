@@ -43,7 +43,7 @@ class ResultView extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const Text('Start new quiz'),
+                  child: const Text('Continue'),
                 ),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/constants.dart';
 
 class QuizAnswer extends StatelessWidget {
   final String answer;
@@ -22,12 +23,7 @@ class QuizAnswer extends StatelessWidget {
           color: isSelected == false ? Colors.white : null,
           borderRadius: BorderRadius.circular(14),
           boxShadow: const [
-            BoxShadow(
-              color: Colors.black38,
-              blurRadius: 3.0,
-              spreadRadius: 0.0,
-              offset: Offset(1.0, 3.0),
-            )
+            kBoxShadow,
           ],
           gradient: isSelected == false
               ? null

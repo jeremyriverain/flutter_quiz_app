@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/constants.dart';
 
 class MainLayout extends StatelessWidget {
   final Widget child;
@@ -12,15 +13,7 @@ class MainLayout extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.5, 1],
-            colors: [
-              Color(0xFF3592F4),
-              Color(0xFF5472ec),
-            ],
-          ),
+          gradient: kBlueGradient,
         ),
         child: child,
       ),
