@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/constants.dart';
-import 'package:flutter_quiz/views/question_view.dart';
+import 'package:flutter_quiz/screens/quiz_screen/index.dart';
 
-class WelcomeView extends StatelessWidget {
-  const WelcomeView({super.key});
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +49,19 @@ class WelcomeView extends StatelessWidget {
                       children: [
                         ListTile(
                           onTap: () {
-                            Navigator.pushReplacement(
+                            /*Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => QuestionView()),
+                            );*/
+                            showGeneralDialog(
+                              context: context,
+                              barrierDismissible:
+                                  false, // should dialog be dismissed when tapped outside
+                              pageBuilder: (_, __, ___) {
+                                // your widget implementation
+                                return QuizScreen();
+                              },
                             );
                           },
                           leading: const Icon(

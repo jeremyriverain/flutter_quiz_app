@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/screens/welcome_screen.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
-import 'package:flutter_quiz/views/welcome_view.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
                 displayColor: Colors.white,
               ),
         ),
-        home: const WelcomeView(),
+        home: const WelcomeScreen(),
       ),
     );
   }
