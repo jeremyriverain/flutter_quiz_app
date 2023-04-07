@@ -49,19 +49,23 @@ class WelcomeScreen extends StatelessWidget {
                       children: [
                         ListTile(
                           onTap: () {
-                            /*Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => QuestionView()),
-                            );*/
                             showGeneralDialog(
                               context: context,
                               barrierDismissible:
                                   false, // should dialog be dismissed when tapped outside
                               pageBuilder: (_, __, ___) {
-                                // your widget implementation
-                                return QuizScreen();
+                                return Container();
                               },
+                              transitionBuilder: (ctx, a1, a2, child) {
+                                var curve =
+                                    Curves.easeInOut.transform(a1.value);
+                                return Transform.scale(
+                                  scale: curve,
+                                  child: QuizScreen(),
+                                );
+                              },
+                              transitionDuration:
+                                  const Duration(milliseconds: 300),
                             );
                           },
                           leading: const Icon(

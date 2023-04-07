@@ -56,7 +56,7 @@ class QuizScreen extends StatelessWidget {
                   );
                 }
 
-                return QuizItem(quiz: quiz);
+                return SingleChildScrollView(child: QuizItem(quiz: quiz));
               }),
         ),
       ),

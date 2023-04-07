@@ -21,7 +21,7 @@ class QuizAnswer extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: isSelected == false ? Colors.white : null,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           boxShadow: const [
             kBoxShadow,
           ],
@@ -31,15 +31,15 @@ class QuizAnswer extends StatelessWidget {
                   ? const LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      stops: [0.1, 1],
+                      stops: [0.3, 1],
                       colors: [
                         Color(0xFFF06F9F),
                         Color(0xFFED8C69),
                       ],
                     )
                   : const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
                       stops: [0.1, 1],
                       colors: [
                         Color(0xFFEFD701),
@@ -47,40 +47,30 @@ class QuizAnswer extends StatelessWidget {
                       ],
                     ),
         ),
-        child: Stack(
-          alignment: AlignmentDirectional.centerEnd,
-          children: [
-            if (isSelected == true)
-              Padding(
-                padding: const EdgeInsets.only(right: 7.0),
-                child: Icon(
-                  isValid == true
-                      ? Icons.check_circle_outline
-                      : Icons.error_outline_outlined,
-                  color: Colors.white,
-                ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18),
+          child: Row(
+            children: [
+              Text(
+                answer,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: isSelected == false
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 5.0, vertical: 18),
-                    child: Text(
-                      answer,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: isSelected == false
-                                ? Theme.of(context).primaryColor
-                                : Colors.white,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
+              if (isSelected == true)
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: Icon(
+                    isValid == true
+                        ? Icons.check
+                        : Icons.error_outline_outlined,
+                    color: Colors.white,
                   ),
                 ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

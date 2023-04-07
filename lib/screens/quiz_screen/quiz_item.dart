@@ -46,91 +46,84 @@ class _QuizItemState extends State<QuizItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text('${index + 1} of $kNumberOfQuestions Question'),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.only(top: 12.0, bottom: 12),
-            child: Column(
-              children: [
-                Text(
-                  quizEntry.question,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ],
-            ),
+    return Column(
+      children: [
+        Text('${index + 1} of $kNumberOfQuestions Question'),
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.only(top: 12.0, bottom: 12),
+          child: Column(
+            children: [
+              Text(
+                quizEntry.question,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ],
           ),
-          Column(
-            children: answers.asMap().entries.map((answer) {
-              final isValid = answer.key == indexCorrectAnswer;
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                child: QuizAnswer(
-                  isValid: answer.key == indexCorrectAnswer,
-                  answer: answer.value,
-                  isSelected: answer.key == indexSelected ||
-                      (indexSelected != null && isValid),
-                  onTap: () {
-                    if (indexSelected != null) {
-                      return;
-                    }
+        ),
+        Column(
+          children: answers.asMap().entries.map((answer) {
+            final isValid = answer.key == indexCorrectAnswer;
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: QuizAnswer(
+                isValid: answer.key == indexCorrectAnswer,
+                answer: answer.value,
+                isSelected: answer.key == indexSelected ||
+                    (indexSelected != null && isValid),
+                onTap: () {
+                  if (indexSelected != null) {
+                    return;
+                  }
 
-                    setState(() {
-                      indexSelected = answer.key;
-                      canAnswerNextQuestion = true;
-                    });
-                    if (indexCorrectAnswer == indexSelected) {
-                      Provider.of<CorrectAnswerStore>(context, listen: false)
-                          .increment();
-                    }
-                  },
-                ),
-              );
-            }).toList(),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0, top: 10),
-                  child: ElevatedButton(
-                    onPressed: canAnswerNextQuestion
-                        ? () {
-                            if (index + 1 == kNumberOfQuestions) {
-                              Navigator.pushReplacement(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder:
-                                      (context, animation1, animation2) =>
-                                          const ResultScreen(),
-                                  transitionDuration: Duration.zero,
-                                  reverseTransitionDuration: Duration.zero,
-                                ),
-                              );
-                            } else {
-                              setState(() {
-                                indexSelected = null;
-                                index++;
-                                canAnswerNextQuestion = false;
-                                setQuizEntryState();
-                              });
-                            }
-                          }
-                        : null,
-                    child: const Text('Next'),
-                  ),
-                ),
-              ],
+                  setState(() {
+                    indexSelected = answer.key;
+                    canAnswerNextQuestion = true;
+                  });
+                  if (indexCorrectAnswer == indexSelected) {
+                    Provider.of<CorrectAnswerStore>(context, listen: false)
+                        .increment();
+                  }
+                },
+              ),
+            );
+          }).toList(),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0, top: 10),
+              child: ElevatedButton(
+                onPressed: canAnswerNextQuestion
+                    ? () {
+                        if (index + 1 == kNumberOfQuestions) {
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) =>
+                                  const ResultScreen(),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            ),
+                          );
+                        } else {
+                          setState(() {
+                            indexSelected = null;
+                            index++;
+                            canAnswerNextQuestion = false;
+                            setQuizEntryState();
+                          });
+                        }
+                      }
+                    : null,
+                child: const Text('Next'),
+              ),
             ),
-          )
-        ],
-      ),
+          ],
+        )
+      ],
     );
   }
 }
