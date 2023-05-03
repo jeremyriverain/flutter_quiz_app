@@ -47,7 +47,14 @@ class _QuizItemState extends State<QuizItem> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Center(
+          child: Image.asset(
+            'images/hot_air_balloons.png',
+            width: 130,
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 12.0, bottom: 12),
           child: Column(
@@ -56,7 +63,7 @@ class _QuizItemState extends State<QuizItem> {
               Text(
                 'Question ${index + 1} of $kNumberOfQuestions',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontSize: 20, color: Colors.white.withOpacity(0.7)),
+                    fontSize: 16, color: Colors.white.withOpacity(0.7)),
               ),
               const SizedBox(
                 height: 6,
@@ -66,7 +73,7 @@ class _QuizItemState extends State<QuizItem> {
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium
-                    ?.copyWith(fontWeight: FontWeight.bold, fontSize: 28),
+                    ?.copyWith(fontWeight: FontWeight.bold, fontSize: 22),
               ),
             ],
           ),
