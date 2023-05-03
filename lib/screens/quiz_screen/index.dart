@@ -3,6 +3,7 @@ import 'package:flutter_quiz/screens/quiz_screen/quiz_item.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/repository.dart';
+import 'package:flutter_quiz/screens/quiz_screen/score.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:provider/provider.dart';
 
@@ -21,16 +22,23 @@ class QuizScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Provider.of<CorrectAnswerStore>(context, listen: false).reset();
-              Navigator.pop(context);
-            },
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: Score(),
           ),
+          leadingWidth: 200,
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Provider.of<CorrectAnswerStore>(context, listen: false).reset();
+                Navigator.pop(context);
+              },
+            )
+          ],
           elevation: 0.0,
         ),
         body: Padding(
@@ -41,7 +49,7 @@ class QuizScreen extends StatelessWidget {
                 if (snapshot.hasError) {
                   return Center(
                     child: Text(
-                      'An error occured while fetching the quiz.',
+                      'An error occurred while fetching the quiz.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Theme.of(context).colorScheme.error,
                           ),

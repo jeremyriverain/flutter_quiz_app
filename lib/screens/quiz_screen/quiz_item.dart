@@ -48,15 +48,25 @@ class _QuizItemState extends State<QuizItem> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('${index + 1} of $kNumberOfQuestions Question'),
-        const Divider(),
         Padding(
           padding: const EdgeInsets.only(top: 12.0, bottom: 12),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
+                'Question ${index + 1} of $kNumberOfQuestions',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontSize: 20, color: Colors.white.withOpacity(0.7)),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Text(
                 quizEntry.question,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(fontWeight: FontWeight.bold, fontSize: 28),
               ),
             ],
           ),
