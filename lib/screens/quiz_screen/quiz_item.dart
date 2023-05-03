@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/screens/quiz_screen/confetti.dart';
@@ -108,6 +109,7 @@ class _QuizItemState extends State<QuizItem> {
                     canAnswerNextQuestion = true;
                   });
                   if (indexCorrectAnswer == indexSelected) {
+                    HapticFeedback.vibrate();
                     Provider.of<CorrectAnswerStore>(context, listen: false)
                         .increment();
                     if (Provider.of<CorrectAnswerStore>(context, listen: false)
