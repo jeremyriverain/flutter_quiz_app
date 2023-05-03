@@ -1,10 +1,11 @@
 import 'dart:math';
 
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
+import 'package:flutter_quiz/screens/quiz_screen/confetti.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_answer.dart';
-import 'package:flutter_quiz/screens/result_screen.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ class _QuizItemState extends State<QuizItem> {
   late QuizEntry quizEntry;
   late int indexCorrectAnswer;
   late List<String> answers;
+  late ConfettiController _controllerBottomCenter;
 
   void setQuizEntryState() {
     indexCorrectAnswer = next(0, 4);
@@ -41,7 +43,15 @@ class _QuizItemState extends State<QuizItem> {
   @override
   void initState() {
     setQuizEntryState();
+    _controllerBottomCenter =
+        ConfettiController(duration: const Duration(seconds: 5));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controllerBottomCenter.dispose();
+    super.dispose();
   }
 
   @override
@@ -100,6 +110,11 @@ class _QuizItemState extends State<QuizItem> {
                   if (indexCorrectAnswer == indexSelected) {
                     Provider.of<CorrectAnswerStore>(context, listen: false)
                         .increment();
+                    if (Provider.of<CorrectAnswerStore>(context, listen: false)
+                            .correctAnswers ==
+                        kNumberOfQuestions) {
+                      _controllerBottomCenter.play();
+                    }
                   }
                 },
               ),
@@ -116,15 +131,10 @@ class _QuizItemState extends State<QuizItem> {
                 onPressed: canAnswerNextQuestion
                     ? () {
                         if (index + 1 == kNumberOfQuestions) {
-                          Navigator.pushReplacement(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  const ResultScreen(),
-                              transitionDuration: Duration.zero,
-                              reverseTransitionDuration: Duration.zero,
-                            ),
-                          );
+                          Provider.of<CorrectAnswerStore>(context,
+                                  listen: false)
+                              .reset();
+                          Navigator.pop(context);
                         } else {
                           setState(() {
                             indexSelected = null;
@@ -139,7 +149,10 @@ class _QuizItemState extends State<QuizItem> {
               ),
             ),
           ],
-        )
+        ),
+        Confetti(
+          controller: _controllerBottomCenter,
+        ),
       ],
     );
   }
