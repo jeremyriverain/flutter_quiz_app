@@ -57,40 +57,41 @@ class _QuizItemState extends State<QuizItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: Image.asset(
-            'images/hot_air_balloons.png',
-            width: 130,
+    return Container(
+      constraints: const BoxConstraints(maxWidth: kMaxWidth),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Image.asset(
+              'images/hot_air_balloons.png',
+              width: 130,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 12.0, bottom: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Question ${index + 1} of $kNumberOfQuestions',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontSize: 16, color: Colors.white.withOpacity(0.7)),
-              ),
-              const SizedBox(
-                height: 6,
-              ),
-              Text(
-                quizEntry.question,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(fontWeight: FontWeight.bold, fontSize: 22),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0, bottom: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Question ${index + 1} of $kNumberOfQuestions',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontSize: 16, color: Colors.white.withOpacity(0.7)),
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                Text(
+                  quizEntry.question,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(fontWeight: FontWeight.bold, fontSize: 22),
+                ),
+              ],
+            ),
           ),
-        ),
-        Column(
-          children: answers.asMap().entries.map((answer) {
+          ...answers.asMap().entries.map((answer) {
             final isValid = answer.key == indexCorrectAnswer;
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -122,40 +123,40 @@ class _QuizItemState extends State<QuizItem> {
               ),
             );
           }).toList(),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0, top: 10),
-              child: ElevatedButton(
-                onPressed: canAnswerNextQuestion
-                    ? () {
-                        if (index + 1 == kNumberOfQuestions) {
-                          Provider.of<CorrectAnswerStore>(context,
-                                  listen: false)
-                              .reset();
-                          Navigator.pop(context);
-                        } else {
-                          setState(() {
-                            indexSelected = null;
-                            index++;
-                            canAnswerNextQuestion = false;
-                            setQuizEntryState();
-                          });
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0, top: 10),
+                child: ElevatedButton(
+                  onPressed: canAnswerNextQuestion
+                      ? () {
+                          if (index + 1 == kNumberOfQuestions) {
+                            Provider.of<CorrectAnswerStore>(context,
+                                    listen: false)
+                                .reset();
+                            Navigator.pop(context);
+                          } else {
+                            setState(() {
+                              indexSelected = null;
+                              index++;
+                              canAnswerNextQuestion = false;
+                              setQuizEntryState();
+                            });
+                          }
                         }
-                      }
-                    : null,
-                child: const Text('Next'),
+                      : null,
+                  child: const Text('Next'),
+                ),
               ),
-            ),
-          ],
-        ),
-        Confetti(
-          controller: _controllerBottomCenter,
-        ),
-      ],
+            ],
+          ),
+          Confetti(
+            controller: _controllerBottomCenter,
+          ),
+        ],
+      ),
     );
   }
 }

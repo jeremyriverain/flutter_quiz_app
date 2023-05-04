@@ -20,3 +20,5 @@ const kBoxShadow = BoxShadow(
   spreadRadius: 0.0,
   offset: Offset(1.0, 3.0),
 );
+
+const double kMaxWidth = 440;

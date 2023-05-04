@@ -28,21 +28,25 @@ class QuizScreen extends StatelessWidget {
           ),
           leadingWidth: 200,
           actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Provider.of<CorrectAnswerStore>(context, listen: false)
+                      .reset();
+                  Navigator.pop(context);
+                },
               ),
-              onPressed: () {
-                Provider.of<CorrectAnswerStore>(context, listen: false).reset();
-                Navigator.pop(context);
-              },
             )
           ],
           elevation: 0.0,
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+          padding: const EdgeInsets.only(right: 20.0, left: 20, top: 20),
           child: FutureBuilder(
               future: quizRepository.fetchQuiz(),
               builder: (context, AsyncSnapshot<List<QuizEntry>> snapshot) {

@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Quiz',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorSchemeSeed: kPrimaryColor,
           useMaterial3: true,

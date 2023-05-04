@@ -33,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 15.0),
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: 440),
+                  constraints: const BoxConstraints(maxWidth: kMaxWidth),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
                     boxShadow: const [
