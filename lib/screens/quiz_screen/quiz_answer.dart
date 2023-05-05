@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/constants.dart';
 
+const kErrorGradient = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  stops: [0.3, 1],
+  colors: [
+    Color(0xFFF06F9F),
+    Color(0xFFED8C69),
+  ],
+);
+
+const kSuccessGradient = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  stops: [0.1, 1],
+  colors: [
+    Color(0xFFEFD701),
+    Color(0xFFB8BE08),
+  ],
+);
+
 class QuizAnswer extends StatelessWidget {
   final String answer;
   final Function() onTap;
@@ -26,24 +46,8 @@ class QuizAnswer extends StatelessWidget {
         gradient: isSelected == false
             ? null
             : isValid == false
-                ? const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.3, 1],
-                    colors: [
-                      Color(0xFFF06F9F),
-                      Color(0xFFED8C69),
-                    ],
-                  )
-                : const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.1, 1],
-                    colors: [
-                      Color(0xFFEFD701),
-                      Color(0xFFB8BE08),
-                    ],
-                  ),
+                ? kErrorGradient
+                : kSuccessGradient,
       ),
       child: ListTile(
         onTap: onTap,
