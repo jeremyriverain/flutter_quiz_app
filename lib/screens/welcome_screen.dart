@@ -61,7 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                                     Curves.easeInOut.transform(a1.value);
                                 return Transform.scale(
                                   scale: curve,
-                                  child: QuizScreen(),
+                                  child: const QuizScreen(),
                                 );
                               },
                               transitionDuration:
