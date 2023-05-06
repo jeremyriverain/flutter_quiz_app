@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/repository.dart';
 import 'package:flutter_quiz/screens/quiz_screen/index.dart';
@@ -16,12 +17,14 @@ void main() {
     final mockRepository = MockRepository();
     when(() => mockRepository.fetchQuiz()).thenAnswer(
       (_) => Future(
-        () => [
-          QuizEntry(
-              question: 'to be or not to be ?',
-              correctAnswer: 'to be',
-              incorrectAnswers: ['not to be'])
-        ],
+        () => List.generate(
+          kNumberOfQuestions,
+          (index) => QuizEntry(
+            question: 'to be or not to be ?',
+            correctAnswer: 'to be',
+            incorrectAnswers: ['not to be'],
+          ),
+        ),
       ),
     );
 

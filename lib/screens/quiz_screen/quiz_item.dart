@@ -35,8 +35,8 @@ class _QuizItemState extends State<QuizItem> {
   late ConfettiController _controllerBottomCenter;
 
   void setQuizEntryState() {
-    indexCorrectAnswer = next(0, 4);
     quizEntry = widget.quiz[index];
+    indexCorrectAnswer = next(0, quizEntry.incorrectAnswers.length + 1);
     answers = quizEntry.incorrectAnswers;
     answers.insert(indexCorrectAnswer, quizEntry.correctAnswer);
   }
