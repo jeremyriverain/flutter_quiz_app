@@ -74,7 +74,7 @@ class _QuizItemState extends State<QuizItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Question ${index + 1} of $kNumberOfQuestions',
+                  'Question ${index + 1} of ${widget.quiz.length}',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontSize: 16, color: Colors.white.withOpacity(0.7)),
                 ),
@@ -115,7 +115,7 @@ class _QuizItemState extends State<QuizItem> {
                         .increment();
                     if (Provider.of<CorrectAnswerStore>(context, listen: false)
                             .correctAnswers ==
-                        kNumberOfQuestions) {
+                        widget.quiz.length) {
                       _controllerBottomCenter.play();
                     }
                   }
@@ -132,7 +132,7 @@ class _QuizItemState extends State<QuizItem> {
                 child: ElevatedButton(
                   onPressed: canAnswerNextQuestion
                       ? () {
-                          if (index + 1 == kNumberOfQuestions) {
+                          if (index + 1 == widget.quiz.length) {
                             Provider.of<CorrectAnswerStore>(context,
                                     listen: false)
                                 .reset();

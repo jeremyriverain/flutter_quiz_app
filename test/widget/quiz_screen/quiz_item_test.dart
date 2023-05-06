@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_item.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
@@ -10,7 +9,7 @@ void main() {
   String question = '- is the earth flat ?';
   List<QuizEntry> createQuiz() {
     return List.generate(
-      kNumberOfQuestions,
+      3,
       (index) => QuizEntry(
         question: '$index $question',
         correctAnswer: 'false',

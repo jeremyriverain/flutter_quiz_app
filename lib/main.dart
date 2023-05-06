@@ -5,20 +5,29 @@ import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp(
+    correctAnswerStore: CorrectAnswerStore(),
+    repository: Repository(),
+  ));
 }
 
 const kPrimaryColor = Color(0xFF5472ec);
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Repository repository;
+  final CorrectAnswerStore correctAnswerStore;
+  const MyApp({
+    super.key,
+    required this.repository,
+    required this.correctAnswerStore,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => CorrectAnswerStore()),
-        Provider(create: (_) => Repository()),
+        ChangeNotifierProvider(create: (context) => correctAnswerStore),
+        Provider(create: (_) => repository),
       ],
       child: MaterialApp(
         title: 'Flutter Quiz',

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-const kNumberOfQuestions = 6;
-
 // THEMING
 
 const kBlueGradient = LinearGradient(

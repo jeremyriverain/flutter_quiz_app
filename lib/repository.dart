@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:http/http.dart' as http;
 
 class Repository {
   Future<List<QuizEntry>> fetchQuiz({
-    int numberOfQuestions = kNumberOfQuestions,
+    int numberOfQuestions = 6,
   }) async {
     final response = await http.get(
       Uri.parse(
