@@ -9,6 +9,7 @@ class Score extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.max,
+      key: const Key('score'),
       children: <Widget>[
         Container(
           height: 40.0,

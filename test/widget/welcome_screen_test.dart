@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
 import 'package:flutter_quiz/repository.dart';
-import 'package:flutter_quiz/screens/quiz_screen/index.dart';
+import 'package:flutter_quiz/screens/quiz_screen/quiz_screen.dart';
 import 'package:flutter_quiz/screens/welcome_screen.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:flutter_test/flutter_test.dart';
