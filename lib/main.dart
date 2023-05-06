@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/repository.dart';
 import 'package:flutter_quiz/screens/welcome_screen.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => CorrectAnswerStore()),
+        Provider(create: (_) => Repository()),
       ],
       child: MaterialApp(
         title: 'Flutter Quiz',

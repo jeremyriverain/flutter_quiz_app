@@ -2,15 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_item.dart';
 import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/model.dart';
-import 'package:flutter_quiz/repository.dart';
 import 'package:flutter_quiz/screens/quiz_screen/score.dart';
 import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:provider/provider.dart';
 
-class QuizScreen extends StatelessWidget {
-  QuizScreen({super.key});
+import 'package:flutter_quiz/repository.dart';
 
-  final Repository quizRepository = Repository();
+class QuizScreen extends StatefulWidget {
+  const QuizScreen({super.key});
+
+  @override
+  State<QuizScreen> createState() => _QuizScreenState();
+}
+
+class _QuizScreenState extends State<QuizScreen> {
+  late Future<List<QuizEntry>> _future;
+
+  @override
+  void initState() {
+    _future = Provider.of<Repository>(context, listen: false).fetchQuiz();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,28 +60,29 @@ class QuizScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.only(right: 20.0, left: 20, top: 20),
           child: FutureBuilder(
-              future: quizRepository.fetchQuiz(),
-              builder: (context, AsyncSnapshot<List<QuizEntry>> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      'An error occurred while fetching the quiz.',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                    ),
-                  );
-                }
-                final quiz = snapshot.data;
-                if (snapshot.connectionState == ConnectionState.waiting ||
-                    quiz == null) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+            future: _future,
+            builder: (context, AsyncSnapshot<List<QuizEntry>> snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    'An error occurred while fetching the quiz.',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                  ),
+                );
+              }
+              final quiz = snapshot.data;
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  quiz == null) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-                return SingleChildScrollView(child: QuizItem(quiz: quiz));
-              }),
+              return SingleChildScrollView(child: QuizItem(quiz: quiz));
+            },
+          ),
         ),
       ),
     );
