@@ -10,6 +10,10 @@ workflows:
     cache:
       cache_paths:
         - ~/.pub-cache
+    triggering:
+      events:
+        - push
+      cancel_previous_builds: false
     scripts:
       - name: Lint
         script: flutter analyze
