@@ -9,7 +9,8 @@ class Repository {
   }) async {
     final response = await http.get(
       Uri.parse(
-          'https://opentdb.com/api.php?amount=$numberOfQuestions&difficulty=easy&type=multiple&encode=url3986'),
+        'https://opentdb.com/api.php?amount=$numberOfQuestions&difficulty=easy&type=multiple&encode=url3986',
+      ),
     );
 
     if (response.statusCode == 200) {
@@ -19,6 +20,7 @@ class Repository {
           return QuizEntry.fromJSON(jsonQuizEntry);
         }),
       );
+
       return quiz;
     } else {
       throw Exception('Failed to load quiz');

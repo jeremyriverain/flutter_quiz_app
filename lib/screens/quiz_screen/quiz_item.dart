@@ -57,6 +57,8 @@ class _QuizItemState extends State<QuizItem> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Container(
       constraints: const BoxConstraints(maxWidth: kMaxWidth),
       child: Column(
@@ -75,17 +77,17 @@ class _QuizItemState extends State<QuizItem> {
               children: [
                 Text(
                   'Question ${index + 1} of ${widget.quiz.length}',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontSize: 16, color: Colors.white.withOpacity(0.7)),
+                  style: textTheme.headlineSmall?.copyWith(
+                    fontSize: 16,
+                    color: Colors.white.withOpacity(0.7),
+                  ),
                 ),
                 const SizedBox(
                   height: 6,
                 ),
                 Text(
                   quizEntry.question,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
+                  style: textTheme.headlineMedium
                       ?.copyWith(fontWeight: FontWeight.bold, fontSize: 22),
                 ),
               ],
@@ -93,6 +95,7 @@ class _QuizItemState extends State<QuizItem> {
           ),
           ...answers.asMap().entries.map((answer) {
             final isValid = answer.key == indexCorrectAnswer;
+
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: QuizAnswer(
@@ -133,9 +136,10 @@ class _QuizItemState extends State<QuizItem> {
                   onPressed: canAnswerNextQuestion
                       ? () {
                           if (index + 1 == widget.quiz.length) {
-                            Provider.of<CorrectAnswerStore>(context,
-                                    listen: false)
-                                .reset();
+                            Provider.of<CorrectAnswerStore>(
+                              context,
+                              listen: false,
+                            ).reset();
                             Navigator.pop(context);
                           } else {
                             setState(() {

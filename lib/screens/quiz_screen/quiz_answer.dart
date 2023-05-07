@@ -34,20 +34,24 @@ class QuizAnswer extends StatelessWidget {
     required this.isValid,
   });
 
+  Gradient? getGradient() {
+    if (!isSelected) {
+      return null;
+    }
+
+    return !isValid ? kErrorGradient : kSuccessGradient;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Ink(
       decoration: BoxDecoration(
-        color: isSelected == false ? Colors.white : null,
+        color: !isSelected ? Colors.white : null,
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [
           kBoxShadow,
         ],
-        gradient: isSelected == false
-            ? null
-            : isValid == false
-                ? kErrorGradient
-                : kSuccessGradient,
+        gradient: getGradient(),
       ),
       child: ListTile(
         onTap: onTap,
@@ -57,10 +61,10 @@ class QuizAnswer extends StatelessWidget {
         title: Text(
           answer,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: isSelected == false
-                  ? Theme.of(context).primaryColor
-                  : Colors.white,
-              fontWeight: FontWeight.bold),
+                color:
+                    !isSelected ? Theme.of(context).primaryColor : Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
     );

@@ -53,7 +53,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   Navigator.pop(context);
                 },
               ),
-            )
+            ),
           ],
           elevation: 0.0,
         ),

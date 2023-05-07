@@ -15,9 +15,10 @@ class Score extends StatelessWidget {
           height: 40.0,
           width: 60.0,
           decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: const BorderRadius.all(Radius.circular(14)),
-              border: Border.all(color: Colors.white, width: 1.0)),
+            color: Colors.transparent,
+            borderRadius: const BorderRadius.all(Radius.circular(14)),
+            border: Border.all(color: Colors.white, width: 1.0),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

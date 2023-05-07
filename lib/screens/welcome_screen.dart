@@ -7,6 +7,8 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -18,15 +20,17 @@ class WelcomeScreen extends StatelessWidget {
               ListTile(
                 title: Text(
                   "Let's play",
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: const Color(0xFFF35B79),
-                        fontWeight: FontWeight.bold,
-                      ),
+                  style: textTheme.headlineLarge?.copyWith(
+                    color: const Color(0xFFF35B79),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                subtitle: Text("Can you answer 6 questions in a row?",
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: const Color(0xFFB3B0B0),
-                        )),
+                subtitle: Text(
+                  "Can you answer 6 questions in a row?",
+                  style: textTheme.headlineSmall?.copyWith(
+                    color: const Color(0xFFB3B0B0),
+                  ),
+                ),
               ),
               const SizedBox(height: 90),
               Padding(
@@ -59,6 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                               transitionBuilder: (ctx, a1, a2, child) {
                                 var curve =
                                     Curves.easeInOut.transform(a1.value);
+
                                 return Transform.scale(
                                   scale: curve,
                                   child: const QuizScreen(),
@@ -75,12 +80,9 @@ class WelcomeScreen extends StatelessWidget {
                           ),
                           title: Text(
                             'Start a quiz',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            style: textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         Positioned(
