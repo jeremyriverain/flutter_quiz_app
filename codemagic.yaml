@@ -16,7 +16,8 @@ workflows:
       - name: Unit tests and widget tests
         script: |
           mkdir -p test-results
-          flutter test
+          flutter test --machine > test-results/tests.json
+        test_report: test-results/tests.json
       - name: Integration tests
         script: |
           mkdir -p test-results
