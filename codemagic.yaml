@@ -13,4 +13,18 @@ workflows:
       - name: Lint
         script: flutter analyze
       - name: Unit tests and widget tests
-        script: flutter test
+        script: |
+          mkdir -p test-results
+          flutter test --machine > test-results/flutter.json
+        test_report: test-results/flutter.json
+      - name: Integration tests
+        script: |
+          mkdir -p test-results
+          flutter config --enable-web
+          flutter emulators --launch emulator &
+          adb wait-for-device
+          flutter -d emulator-5554 test --machine > test-results/flutter.json integration_test
+        test_report: test-results/flutter.json
+# for iOS, execute the commands below
+# flutter emulators --launch apple_ios_simulator
+# flutter -d iPhone test integration_test
