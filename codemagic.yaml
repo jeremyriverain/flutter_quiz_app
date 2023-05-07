@@ -32,4 +32,3 @@ workflows:
           TEST_DEVICE=$(xcrun simctl create test-device com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-15-0)
           xcrun simctl boot $TEST_DEVICE
           flutter -d $TEST_DEVICE test --verbose
-        test_report: test-results/integration_tests.json
