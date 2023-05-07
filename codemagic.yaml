@@ -6,6 +6,7 @@ workflows:
     max_build_duration: 15
     environment:
       flutter: 3.7.9
+      xcode: latest
     cache:
       cache_paths:
         - ~/.pub-cache
@@ -15,16 +16,15 @@ workflows:
       - name: Unit tests and widget tests
         script: |
           mkdir -p test-results
-          flutter test --machine > test-results/flutter.json
-        test_report: test-results/flutter.json
+          flutter test
       - name: Integration tests
         script: |
           mkdir -p test-results
-          flutter config --enable-web
-          flutter emulators --launch emulator &
-          adb wait-for-device
-          flutter -d emulator-5554 test --machine > test-results/flutter.json integration_test
-        test_report: test-results/flutter.json
-# for iOS, execute the commands below
-# flutter emulators --launch apple_ios_simulator
-# flutter -d iPhone test integration_test
+          flutter emulators --launch apple_ios_simulator
+          flutter -d iPhone test --machine > test-results/flutter.json integration_test
+          xcrun simctl shutdown all
+          xcrun simctl list
+          TEST_DEVICE=$(xcrun simctl create test-device com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.iOS-15-0)
+          xcrun simctl boot $TEST_DEVICE
+          flutter -d $TEST_DEVICE test --verbose
+        test_report: test-results/integration_tests.json

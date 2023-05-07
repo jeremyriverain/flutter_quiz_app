@@ -29,4 +29,10 @@ jobs:
       - name: Lint
         run: flutter analyze
       - name: Test
-        run: flutter test test/
+        run: |
+          flutter test test/
+          flutter config --enable-web
+          flutter devices
+          flutter emulators --launch emulator-5554 &
+          adb wait-for-device
+          flutter -d emulator-5554 test --machine > test-results/flutter.json integration_test
