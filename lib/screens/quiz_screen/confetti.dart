@@ -44,11 +44,11 @@ class Confetti extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: ConfettiWidget(
         confettiController: controller,
-        blastDirection: -pi / 2,
         emissionFrequency: 0.01,
         numberOfParticles: 20,
         maxBlastForce: 100,
         minBlastForce: 80,
+        blastDirection: -pi / 2,
         gravity: 0.3,
         createParticlePath: drawStar,
       ),

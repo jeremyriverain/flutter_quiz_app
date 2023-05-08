@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/model.dart';
+import 'package:flutter_quiz/models/quiz_entry.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_item.dart';
-import 'package:flutter_quiz/store/correct_answer_store.dart';
+import 'package:flutter_quiz/stores/correct_answer_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 

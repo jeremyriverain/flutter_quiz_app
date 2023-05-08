@@ -1,15 +1,16 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/main.dart';
-import 'package:flutter_quiz/model.dart';
-import 'package:flutter_quiz/repository.dart';
+import 'package:flutter_quiz/models/quiz_entry.dart';
+import 'package:flutter_quiz/models/quiz_response.dart';
+import 'package:flutter_quiz/quiz.dart';
+import 'package:flutter_quiz/repositories/quiz_repository.dart';
 import 'package:flutter_quiz/screens/quiz_screen/confetti.dart';
-import 'package:flutter_quiz/store/correct_answer_store.dart';
+import 'package:flutter_quiz/stores/correct_answer_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockRepository extends Mock implements Repository {}
+class MockRepository extends Mock implements QuizRepository {}
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,8 @@ void main() {
     }
 
     void expectConfettiControllerState(
-        ConfettiControllerState confettiControllerState) {
+      ConfettiControllerState confettiControllerState,
+    ) {
       expect(
         (find.byType(Confetti).evaluate().first.widget as Confetti)
             .controller
@@ -42,22 +44,25 @@ void main() {
     const question = '- to be or not to be ';
     when(() => mockRepository.fetchQuiz()).thenAnswer(
       (_) => Future(
-        () => List.generate(
-          numberOfQuestions,
-          (index) => QuizEntry(
-            question: '$index $question',
-            correctAnswer: 'to be',
-            incorrectAnswers: ['not to be'],
+        () => QuizResponse(
+          quiz: List.generate(
+            numberOfQuestions,
+            (index) => QuizEntry(
+              question: '$index $question',
+              correctAnswer: 'to be',
+              incorrectAnswers: ['not to be'],
+            ),
           ),
+          hasError: false,
         ),
       ),
     );
 
     final correctAnswerStore = CorrectAnswerStore();
 
-    runApp(MyApp(
-      correctAnswerStore: correctAnswerStore,
+    runApp(Quiz(
       repository: mockRepository,
+      correctAnswerStore: correctAnswerStore,
     ));
     await tester.pumpAndSettle();
 

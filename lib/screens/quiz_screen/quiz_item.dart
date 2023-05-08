@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_quiz/constants.dart';
-import 'package:flutter_quiz/model.dart';
+import 'package:flutter_quiz/models/quiz_entry.dart';
 import 'package:flutter_quiz/screens/quiz_screen/confetti.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_answer.dart';
-import 'package:flutter_quiz/store/correct_answer_store.dart';
+import 'package:flutter_quiz/stores/correct_answer_store.dart';
+import 'package:flutter_quiz/theme_constants.dart';
 import 'package:provider/provider.dart';
 
 class QuizItem extends StatefulWidget {
@@ -29,16 +29,17 @@ class _QuizItemState extends State<QuizItem> {
   int next(int min, int max) => min + random.nextInt(max - min);
   bool canAnswerNextQuestion = false;
 
-  late QuizEntry quizEntry;
-  late int indexCorrectAnswer;
-  late List<String> answers;
+  int indexCorrectAnswer = 0;
+  List<String> answers = [];
+
+  // ignore: avoid-late-keyword
   late ConfettiController _controllerBottomCenter;
 
   void setQuizEntryState() {
-    quizEntry = widget.quiz[index];
-    indexCorrectAnswer = next(0, quizEntry.incorrectAnswers.length + 1);
-    answers = quizEntry.incorrectAnswers;
-    answers.insert(indexCorrectAnswer, quizEntry.correctAnswer);
+    indexCorrectAnswer =
+        next(0, widget.quiz[index].incorrectAnswers.length + 1);
+    answers = widget.quiz[index].incorrectAnswers;
+    answers.insert(indexCorrectAnswer, widget.quiz[index].correctAnswer);
   }
 
   @override
@@ -55,12 +56,31 @@ class _QuizItemState extends State<QuizItem> {
     super.dispose();
   }
 
+  void onTapAnswer(MapEntry<int, String> answer) {
+    if (indexSelected != null) {
+      return;
+    }
+    setState(() {
+      indexSelected = answer.key;
+      canAnswerNextQuestion = true;
+    });
+    if (indexCorrectAnswer == indexSelected) {
+      HapticFeedback.vibrate();
+      Provider.of<CorrectAnswerStore>(context, listen: false).increment();
+      if (Provider.of<CorrectAnswerStore>(context, listen: false)
+              .correctAnswers ==
+          widget.quiz.length) {
+        _controllerBottomCenter.play();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      constraints: const BoxConstraints(maxWidth: kMaxWidth),
+      constraints: const BoxConstraints(maxWidth: ThemeConstants.maxWidth),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -71,7 +91,7 @@ class _QuizItemState extends State<QuizItem> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0, bottom: 12),
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -86,7 +106,7 @@ class _QuizItemState extends State<QuizItem> {
                   height: 6,
                 ),
                 Text(
-                  quizEntry.question,
+                  widget.quiz[index].question,
                   style: textTheme.headlineMedium
                       ?.copyWith(fontWeight: FontWeight.bold, fontSize: 22),
                 ),
@@ -99,30 +119,11 @@ class _QuizItemState extends State<QuizItem> {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: QuizAnswer(
-                isValid: answer.key == indexCorrectAnswer,
                 answer: answer.value,
+                onTap: () => onTapAnswer(answer),
                 isSelected: answer.key == indexSelected ||
                     (indexSelected != null && isValid),
-                onTap: () {
-                  if (indexSelected != null) {
-                    return;
-                  }
-
-                  setState(() {
-                    indexSelected = answer.key;
-                    canAnswerNextQuestion = true;
-                  });
-                  if (indexCorrectAnswer == indexSelected) {
-                    HapticFeedback.vibrate();
-                    Provider.of<CorrectAnswerStore>(context, listen: false)
-                        .increment();
-                    if (Provider.of<CorrectAnswerStore>(context, listen: false)
-                            .correctAnswers ==
-                        widget.quiz.length) {
-                      _controllerBottomCenter.play();
-                    }
-                  }
-                },
+                isValid: answer.key == indexCorrectAnswer,
               ),
             );
           }).toList(),
@@ -131,7 +132,7 @@ class _QuizItemState extends State<QuizItem> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 8.0, top: 10),
+                padding: const EdgeInsets.only(top: 10, right: 8.0),
                 child: ElevatedButton(
                   onPressed: canAnswerNextQuestion
                       ? () {

@@ -1,4 +1,4 @@
-import 'package:flutter_quiz/store/correct_answer_store.dart';
+import 'package:flutter_quiz/stores/correct_answer_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

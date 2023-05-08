@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/constants.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_answer.dart';
+import 'package:flutter_quiz/theme_constants.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -28,11 +28,11 @@ void main() {
       expect(
         (find.byType(Ink).evaluate().first.widget as Ink).decoration,
         equals(
-          BoxDecoration(
+          const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: const [
-              kBoxShadow,
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            boxShadow: [
+              ThemeConstants.boxShadow,
             ],
           ),
         ),
@@ -55,7 +55,7 @@ void main() {
         ((find.byType(Ink).evaluate().first.widget as Ink).decoration
                 as BoxDecoration)
             .gradient,
-        equals(kSuccessGradient),
+        equals(ThemeConstants.successGradient),
       );
     });
 
@@ -76,7 +76,7 @@ void main() {
                 as BoxDecoration)
             .gradient,
         equals(
-          kErrorGradient,
+          ThemeConstants.errorGradient,
         ),
       );
     });
