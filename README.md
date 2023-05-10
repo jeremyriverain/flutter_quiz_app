@@ -4,15 +4,23 @@
 
 Test your knowledge with this quiz application
 
-## Getting Started
+## Commands
 
-This project is a starting point for a Flutter application.
+### Lint 
 
-A few resources to get you started if this is your first Flutter project:
+```
+flutter analyze
+flutter pub run dart_code_metrics:metrics analyze lib --verbose
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Unit and widget tests
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+flutter test
+```
+
+### Integration tests
+
+```
+flutter test integration_test
+```

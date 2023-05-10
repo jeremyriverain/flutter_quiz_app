@@ -1,11 +1,10 @@
 import 'dart:math';
 
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quiz/models/quiz_entry.dart';
-import 'package:flutter_quiz/screens/quiz_screen/confetti.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_answer.dart';
+import 'package:flutter_quiz/screens/quiz_screen/quiz_header_image.dart';
 import 'package:flutter_quiz/stores/correct_answer_store.dart';
 import 'package:flutter_quiz/theme_constants.dart';
 import 'package:provider/provider.dart';
@@ -32,9 +31,6 @@ class _QuizItemState extends State<QuizItem> {
   int indexCorrectAnswer = 0;
   List<String> answers = [];
 
-  // ignore: avoid-late-keyword
-  late ConfettiController _controllerBottomCenter;
-
   void setQuizEntryState() {
     indexCorrectAnswer =
         next(0, widget.quiz[index].incorrectAnswers.length + 1);
@@ -45,15 +41,7 @@ class _QuizItemState extends State<QuizItem> {
   @override
   void initState() {
     setQuizEntryState();
-    _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 5));
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controllerBottomCenter.dispose();
-    super.dispose();
   }
 
   void onTapAnswer(MapEntry<int, String> answer) {
@@ -67,12 +55,20 @@ class _QuizItemState extends State<QuizItem> {
     if (indexCorrectAnswer == indexSelected) {
       HapticFeedback.vibrate();
       Provider.of<CorrectAnswerStore>(context, listen: false).increment();
-      if (Provider.of<CorrectAnswerStore>(context, listen: false)
-              .correctAnswers ==
-          widget.quiz.length) {
-        _controllerBottomCenter.play();
-      }
     }
+  }
+
+  bool hasEndedQuiz() =>
+      indexSelected != null && index + 1 == widget.quiz.length;
+
+  bool? hasWon() {
+    if (hasEndedQuiz()) {
+      return Provider.of<CorrectAnswerStore>(context, listen: true)
+              .correctAnswers ==
+          widget.quiz.length;
+    }
+
+    return null;
   }
 
   @override
@@ -85,9 +81,8 @@ class _QuizItemState extends State<QuizItem> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: Image.asset(
-              'images/hot_air_balloons.png',
-              width: 130,
+            child: QuizHeaderImage(
+              hasWon: hasWon(),
             ),
           ),
           Padding(
@@ -137,10 +132,6 @@ class _QuizItemState extends State<QuizItem> {
                   onPressed: canAnswerNextQuestion
                       ? () {
                           if (index + 1 == widget.quiz.length) {
-                            Provider.of<CorrectAnswerStore>(
-                              context,
-                              listen: false,
-                            ).reset();
                             Navigator.pop(context);
                           } else {
                             setState(() {
@@ -156,9 +147,6 @@ class _QuizItemState extends State<QuizItem> {
                 ),
               ),
             ],
-          ),
-          Confetti(
-            controller: _controllerBottomCenter,
           ),
         ],
       ),

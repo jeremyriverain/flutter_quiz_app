@@ -1,60 +1,57 @@
-import 'package:confetti/confetti.dart';
+// ignore_for_file: avoid-ignoring-return-values
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/models/quiz_entry.dart';
 import 'package:flutter_quiz/models/quiz_response.dart';
 import 'package:flutter_quiz/quiz.dart';
 import 'package:flutter_quiz/repositories/quiz_repository.dart';
-import 'package:flutter_quiz/screens/quiz_screen/confetti.dart';
 import 'package:flutter_quiz/stores/correct_answer_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+// ignore: prefer-match-file-name
 class MockRepository extends Mock implements QuizRepository {}
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('integration test', (tester) async {
-    void expectScoreWidgetToContain(int score) {
-      expect(
-        find.descendant(
-          of: find.byKey(const Key('score')),
-          matching: find.textContaining(score.toString()),
+  void expectScoreWidgetToContain(int score) {
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('score')),
+        matching: find.textContaining(score.toString()),
+      ),
+      findsOneWidget,
+    );
+  }
+
+  mockFetchQuiz({required int numberOfQuestions, required String question}) {
+    return Future(
+      () => QuizResponse(
+        quiz: List.generate(
+          numberOfQuestions,
+          (index) => QuizEntry(
+            question: '$index $question',
+            correctAnswer: 'to be',
+            incorrectAnswers: ['not to be'],
+          ),
         ),
-        findsOneWidget,
-      );
-    }
+        hasError: false,
+      ),
+    );
+  }
 
-    void expectConfettiControllerState(
-      ConfettiControllerState confettiControllerState,
-    ) {
-      expect(
-        (find.byType(Confetti).evaluate().first.widget as Confetti)
-            .controller
-            .state,
-        confettiControllerState,
-      );
-    }
-
+  testWidgets('the user loses', (tester) async {
     final mockRepository = MockRepository();
 
     const numberOfQuestions = 3;
 
     const question = '- to be or not to be ';
     when(() => mockRepository.fetchQuiz()).thenAnswer(
-      (_) => Future(
-        () => QuizResponse(
-          quiz: List.generate(
-            numberOfQuestions,
-            (index) => QuizEntry(
-              question: '$index $question',
-              correctAnswer: 'to be',
-              incorrectAnswers: ['not to be'],
-            ),
-          ),
-          hasError: false,
-        ),
+      (_) => mockFetchQuiz(
+        numberOfQuestions: numberOfQuestions,
+        question: question,
       ),
     );
 
@@ -71,21 +68,74 @@ void main() {
 
     verify(() => mockRepository.fetchQuiz()).called(1);
 
-    for (var i = 0; i < numberOfQuestions; i++) {
-      expectScoreWidgetToContain(i);
-      expect(correctAnswerStore.correctAnswers, equals(i));
+    for (var index = 0; index < numberOfQuestions; index++) {
+      expectScoreWidgetToContain(0);
+      expect(correctAnswerStore.correctAnswers, equals(0));
 
-      expect(find.text('$i $question'), findsOneWidget);
-      await tester.tap(find.text('to be'));
-      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.text('$index $question'), findsOneWidget);
+      await tester.tap(find.text('not to be'));
+      await tester.pumpAndSettle();
 
-      expectScoreWidgetToContain(i + 1);
-      expect(correctAnswerStore.correctAnswers, equals(i + 1));
+      expectScoreWidgetToContain(0);
+      expect(correctAnswerStore.correctAnswers, equals(0));
 
-      if (i == numberOfQuestions - 1) {
-        expectConfettiControllerState(ConfettiControllerState.playing);
+      const errorMessage = 'Try again';
+      if (index == numberOfQuestions - 1) {
+        expect(find.text(errorMessage), findsOneWidget);
       } else {
-        expectConfettiControllerState(ConfettiControllerState.stopped);
+        expect(find.text(errorMessage), findsNothing);
+      }
+      await tester.tap(find.text('Next'));
+      await tester.pumpAndSettle();
+    }
+
+    await tester.tap(find.text('Start a quiz'));
+    await tester.pumpAndSettle();
+    expectScoreWidgetToContain(0);
+  });
+
+  testWidgets('the user wins', (tester) async {
+    final mockRepository = MockRepository();
+
+    const numberOfQuestions = 3;
+
+    const question = '- to be or not to be ';
+    when(() => mockRepository.fetchQuiz()).thenAnswer(
+      (_) => mockFetchQuiz(
+        numberOfQuestions: numberOfQuestions,
+        question: question,
+      ),
+    );
+
+    final correctAnswerStore = CorrectAnswerStore();
+
+    runApp(Quiz(
+      repository: mockRepository,
+      correctAnswerStore: correctAnswerStore,
+    ));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Start a quiz'));
+    await tester.pumpAndSettle();
+
+    verify(() => mockRepository.fetchQuiz()).called(1);
+
+    for (var index = 0; index < numberOfQuestions; index++) {
+      expectScoreWidgetToContain(index);
+      expect(correctAnswerStore.correctAnswers, equals(index));
+
+      expect(find.text('$index $question'), findsOneWidget);
+      await tester.tap(find.text('to be'));
+      await tester.pumpAndSettle();
+
+      expectScoreWidgetToContain(index + 1);
+      expect(correctAnswerStore.correctAnswers, equals(index + 1));
+
+      const successMessage = 'Bravo';
+      if (index == numberOfQuestions - 1) {
+        expect(find.text(successMessage), findsOneWidget);
+      } else {
+        expect(find.text(successMessage), findsNothing);
       }
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();

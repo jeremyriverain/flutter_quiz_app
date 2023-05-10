@@ -1,9 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_screen.dart';
+import 'package:flutter_quiz/stores/correct_answer_store.dart';
 import 'package:flutter_quiz/theme_constants.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
+
+  onStartQuiz(BuildContext context) {
+    Provider.of<CorrectAnswerStore>(
+      context,
+      listen: false,
+    ).reset();
+    // ignore: avoid-ignoring-return-values
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (_, __, ___) {
+        return Container();
+      },
+      barrierDismissible: false,
+      transitionDuration: const Duration(milliseconds: 300),
+      transitionBuilder: (ctx, a1, a2, child) {
+        var curve = Curves.easeInOut.transform(a1.value);
+
+        return Transform.scale(
+          scale: curve,
+          child: const QuizScreen(),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,22 +84,7 @@ class WelcomeScreen extends StatelessWidget {
                           style: textTheme.headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                        onTap: () => showGeneralDialog(
-                          context: context,
-                          pageBuilder: (_, __, ___) {
-                            return Container();
-                          },
-                          barrierDismissible: false,
-                          transitionDuration: const Duration(milliseconds: 300),
-                          transitionBuilder: (ctx, a1, a2, child) {
-                            var curve = Curves.easeInOut.transform(a1.value);
-
-                            return Transform.scale(
-                              scale: curve,
-                              child: const QuizScreen(),
-                            );
-                          },
-                        ),
+                        onTap: () => onStartQuiz(context),
                       ),
                       Positioned(
                         top: -120,

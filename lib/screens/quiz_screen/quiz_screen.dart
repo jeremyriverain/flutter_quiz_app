@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quiz/models/quiz_response.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_item.dart';
 import 'package:flutter_quiz/screens/quiz_screen/score.dart';
-import 'package:flutter_quiz/stores/correct_answer_store.dart';
 import 'package:flutter_quiz/theme_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +11,6 @@ class QuizScreen extends StatelessWidget {
   const QuizScreen({super.key});
 
   void onClose(BuildContext context) {
-    Provider.of<CorrectAnswerStore>(context, listen: false).reset();
     Navigator.pop(context);
   }
 
