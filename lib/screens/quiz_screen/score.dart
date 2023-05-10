@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/stores/correct_answer_store.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_quiz/store/correct_answer_store.dart';
 
 class Score extends StatelessWidget {
   const Score({super.key});
@@ -29,9 +28,7 @@ class Score extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              Provider.of<CorrectAnswerStore>(context, listen: true)
-                  .correctAnswers
-                  .toString(),
+              CorrectAnswerStore.of(context).correctAnswers.toString(),
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium

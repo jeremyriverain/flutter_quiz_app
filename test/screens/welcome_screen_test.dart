@@ -5,10 +5,9 @@ import 'package:flutter_quiz/repository/quiz_repository.dart';
 import 'package:flutter_quiz/repository/quiz_repository_provider.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_screen.dart';
 import 'package:flutter_quiz/screens/welcome_screen.dart';
-import 'package:flutter_quiz/stores/correct_answer_store.dart';
+import 'package:flutter_quiz/store/correct_answer_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:provider/provider.dart';
 
 class MockRepository extends Mock implements QuizRepository {}
 
@@ -36,12 +35,7 @@ void main() {
       await tester.pumpWidget(
         QuizRepositoryProvider(
           quizRepository: mockRepository,
-          child: MultiProvider(
-            providers: [
-              ChangeNotifierProvider(
-                create: (_) => CorrectAnswerStore(),
-              ),
-            ],
+          child: CorrectAnswerProvider(
             child: Builder(builder: (context) {
               return const MaterialApp(home: WelcomeScreen());
             }),

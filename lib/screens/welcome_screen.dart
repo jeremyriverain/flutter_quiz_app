@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_screen.dart';
-import 'package:flutter_quiz/stores/correct_answer_store.dart';
+import 'package:flutter_quiz/store/correct_answer_provider.dart';
 import 'package:flutter_quiz/theme_constants.dart';
-import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   onStartQuiz(BuildContext context) {
-    Provider.of<CorrectAnswerStore>(
-      context,
-      listen: false,
-    ).reset();
+    CorrectAnswerProvider.of(context).reset();
     // ignore: avoid-ignoring-return-values
     showGeneralDialog(
       context: context,

@@ -5,7 +5,8 @@ import 'package:flutter_quiz/models/quiz_entry.dart';
 import 'package:flutter_quiz/models/quiz_response.dart';
 import 'package:flutter_quiz/quiz.dart';
 import 'package:flutter_quiz/repository/quiz_repository.dart';
-import 'package:flutter_quiz/stores/correct_answer_store.dart';
+import 'package:flutter_quiz/repository/quiz_repository_provider.dart';
+import 'package:flutter_quiz/store/correct_answer_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -55,12 +56,12 @@ void main() {
       ),
     );
 
-    final correctAnswerStore = CorrectAnswerStore();
-
-    runApp(Quiz(
-      repository: mockRepository,
-      correctAnswerStore: correctAnswerStore,
-    ));
+    runApp(
+      QuizRepositoryProvider(
+        quizRepository: mockRepository,
+        child: const CorrectAnswerProvider(child: Quiz()),
+      ),
+    );
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Start a quiz'));
@@ -70,14 +71,12 @@ void main() {
 
     for (var index = 0; index < numberOfQuestions; index++) {
       expectScoreWidgetToContain(0);
-      expect(correctAnswerStore.correctAnswers, equals(0));
 
       expect(find.text('$index $question'), findsOneWidget);
       await tester.tap(find.text('not to be'));
       await tester.pumpAndSettle();
 
       expectScoreWidgetToContain(0);
-      expect(correctAnswerStore.correctAnswers, equals(0));
 
       const errorMessage = 'Try again';
       if (index == numberOfQuestions - 1) {
@@ -107,12 +106,12 @@ void main() {
       ),
     );
 
-    final correctAnswerStore = CorrectAnswerStore();
-
-    runApp(Quiz(
-      repository: mockRepository,
-      correctAnswerStore: correctAnswerStore,
-    ));
+    runApp(
+      QuizRepositoryProvider(
+        quizRepository: mockRepository,
+        child: const CorrectAnswerProvider(child: Quiz()),
+      ),
+    );
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Start a quiz'));
@@ -122,14 +121,12 @@ void main() {
 
     for (var index = 0; index < numberOfQuestions; index++) {
       expectScoreWidgetToContain(index);
-      expect(correctAnswerStore.correctAnswers, equals(index));
 
       expect(find.text('$index $question'), findsOneWidget);
       await tester.tap(find.text('to be'));
       await tester.pumpAndSettle();
 
       expectScoreWidgetToContain(index + 1);
-      expect(correctAnswerStore.correctAnswers, equals(index + 1));
 
       const successMessage = 'Bravo';
       if (index == numberOfQuestions - 1) {

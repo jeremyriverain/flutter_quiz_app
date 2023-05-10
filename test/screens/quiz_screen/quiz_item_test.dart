@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/models/quiz_entry.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_item.dart';
-import 'package:flutter_quiz/stores/correct_answer_store.dart';
+import 'package:flutter_quiz/store/correct_answer_provider.dart';
+import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   String question = '- is the earth flat ?';
@@ -18,21 +18,21 @@ void main() {
     );
   }
 
-  late CorrectAnswerStore correctAnswerStore = CorrectAnswerStore();
-
-  setUp(
-    () => correctAnswerStore.reset(),
-  );
-
   Widget mountQuizItem() {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => correctAnswerStore),
-      ],
+    return CorrectAnswerProvider(
       child: MaterialApp(
         home: Scaffold(
-          body: QuizItem(
-            quiz: createQuiz(),
+          body: Column(
+            children: [
+              Builder(builder: (context) {
+                return Text(
+                  'correct answers: ${CorrectAnswerStore.of(context).correctAnswers.toString()}',
+                );
+              }),
+              QuizItem(
+                quiz: createQuiz(),
+              ),
+            ],
           ),
         ),
       ),
@@ -42,11 +42,11 @@ void main() {
   testWidgets('QuizItem widget', (tester) async {
     await tester.pumpWidget(mountQuizItem());
 
-    expect(correctAnswerStore.correctAnswers, equals(0));
+    expect(find.text('correct answers: 0'), findsOneWidget);
     expect(find.text('0 $question'), findsOneWidget);
     await tester.tap(find.text('false'));
     await tester.pumpAndSettle();
-    expect(correctAnswerStore.correctAnswers, equals(1));
+    expect(find.text('correct answers: 1'), findsOneWidget);
 
     await tester.tap(find.text('Next').first);
     await tester.pumpAndSettle();
@@ -55,7 +55,7 @@ void main() {
 
     await tester.tap(find.text('false'));
     await tester.pumpAndSettle();
-    expect(correctAnswerStore.correctAnswers, equals(2));
+    expect(find.text('correct answers: 2'), findsOneWidget);
 
     await tester.tap(find.text('Next').first);
     await tester.pumpAndSettle();
@@ -64,6 +64,6 @@ void main() {
 
     await tester.tap(find.text('true'));
     await tester.pumpAndSettle();
-    expect(correctAnswerStore.correctAnswers, equals(2));
+    expect(find.text('correct answers: 2'), findsOneWidget);
   });
 }

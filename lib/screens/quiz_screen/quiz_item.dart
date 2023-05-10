@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quiz/models/quiz_entry.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_answer.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_header_image.dart';
-import 'package:flutter_quiz/stores/correct_answer_store.dart';
+import 'package:flutter_quiz/store/correct_answer_provider.dart';
+import 'package:flutter_quiz/store/correct_answer_store.dart';
 import 'package:flutter_quiz/theme_constants.dart';
-import 'package:provider/provider.dart';
 
 class QuizItem extends StatefulWidget {
   final List<QuizEntry> quiz;
@@ -54,7 +54,7 @@ class _QuizItemState extends State<QuizItem> {
     });
     if (indexCorrectAnswer == indexSelected) {
       HapticFeedback.vibrate();
-      Provider.of<CorrectAnswerStore>(context, listen: false).increment();
+      CorrectAnswerProvider.of(context).increment();
     }
   }
 
@@ -63,8 +63,7 @@ class _QuizItemState extends State<QuizItem> {
 
   bool? hasWon() {
     if (hasEndedQuiz()) {
-      return Provider.of<CorrectAnswerStore>(context, listen: true)
-              .correctAnswers ==
+      return CorrectAnswerStore.of(context).correctAnswers ==
           widget.quiz.length;
     }
 
