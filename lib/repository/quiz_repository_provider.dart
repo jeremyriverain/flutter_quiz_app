@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/repositories/quiz_repository.dart';
+import 'package:flutter_quiz/repository/quiz_repository.dart';
 
 class QuizRepositoryProvider extends InheritedWidget {
   static QuizRepository of(BuildContext context) {

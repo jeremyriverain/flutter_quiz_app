@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quiz/models/quiz_entry.dart';
 import 'package:flutter_quiz/models/quiz_response.dart';
 import 'package:flutter_quiz/quiz.dart';
-import 'package:flutter_quiz/repositories/quiz_repository.dart';
+import 'package:flutter_quiz/repository/quiz_repository.dart';
 import 'package:flutter_quiz/stores/correct_answer_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
