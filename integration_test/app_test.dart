@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/models/quiz_entry.dart';
-import 'package:flutter_quiz/models/quiz_response.dart';
 import 'package:flutter_quiz/quiz.dart';
 import 'package:flutter_quiz/repository/quiz_repository.dart';
 import 'package:flutter_quiz/repository/quiz_repository_provider.dart';
@@ -29,16 +28,13 @@ void main() {
 
   mockFetchQuiz({required int numberOfQuestions, required String question}) {
     return Future(
-      () => QuizResponse(
-        quiz: List.generate(
-          numberOfQuestions,
-          (index) => QuizEntry(
-            question: '$index $question',
-            correctAnswer: 'to be',
-            incorrectAnswers: ['not to be'],
-          ),
+      () => List.generate(
+        numberOfQuestions,
+        (index) => QuizEntry(
+          question: '$index $question',
+          correctAnswer: 'to be',
+          incorrectAnswers: ['not to be'],
         ),
-        hasError: false,
       ),
     );
   }

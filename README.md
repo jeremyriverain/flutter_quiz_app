@@ -2,7 +2,7 @@
 
 [![Codemagic build status](https://api.codemagic.io/apps/64540bb06f37ff98d9b2ad35/ci/status_badge.svg)](https://codemagic.io/apps/64540bb06f37ff98d9b2ad35/ci/latest_build)
 
-Test your knowledge with this quiz application
+Test your knowledge with this quiz application.
 
 ## Commands
 
@@ -23,4 +23,17 @@ flutter test
 
 ```
 flutter test integration_test
+```
+
+### Build for Android
+
+```
+flutter build appbundle
+```
+
+
+### Build for iOS
+
+```
+flutter build ipa
 ```

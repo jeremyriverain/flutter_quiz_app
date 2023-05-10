@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quiz/theme_constants.dart';
 
 class QuizHeaderImage extends StatelessWidget {
   final bool? hasWon;
@@ -19,27 +18,21 @@ class QuizHeaderImage extends StatelessWidget {
       );
     }
 
-    final gradient = hasWon == true
-        ? ThemeConstants.successGradient
-        : ThemeConstants.errorGradient;
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ShaderMask(
-          shaderCallback: (bounds) => gradient.createShader(bounds),
-          child: Icon(
-            hasWon == true ? Icons.check_circle_outline : Icons.close,
-            size: 130,
-            color: Colors.white,
+        SizedBox(
+          height: heightHeader,
+          child: Center(
+            child: Text(
+              // ignore: avoid-non-ascii-symbols
+              hasWon == true ? 'Bravo ! 🥳' : '🤯 Try again',
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
           ),
-        ),
-        Text(
-          hasWon == true ? 'Bravo' : 'Try again',
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium
-              ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ],
     );
