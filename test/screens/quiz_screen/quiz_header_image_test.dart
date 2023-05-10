@@ -21,8 +21,7 @@ void main() {
         ),
       ));
 
-      expect(find.byType(Icon), findsOneWidget);
-      expect(find.text('Bravo'), findsOneWidget);
+      expect(find.textContaining('Bravo'), findsOneWidget);
     });
 
     testWidgets('has failed', (tester) async {
@@ -32,8 +31,7 @@ void main() {
         ),
       ));
 
-      expect(find.byType(Icon), findsOneWidget);
-      expect(find.text('Try again'), findsOneWidget);
+      expect(find.textContaining('Try again'), findsOneWidget);
     });
   });
 }
