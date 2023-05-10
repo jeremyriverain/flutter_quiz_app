@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quiz/models/quiz_entry.dart';
 import 'package:flutter_quiz/models/quiz_response.dart';
 import 'package:flutter_quiz/repositories/quiz_repository.dart';
+import 'package:flutter_quiz/repositories/quiz_repository_provider.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_screen.dart';
 import 'package:flutter_quiz/screens/welcome_screen.dart';
 import 'package:flutter_quiz/stores/correct_answer_store.dart';
@@ -33,16 +34,18 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (_) => CorrectAnswerStore(),
-            ),
-            Provider<QuizRepository>(create: (_) => mockRepository),
-          ],
-          child: Builder(builder: (context) {
-            return const MaterialApp(home: WelcomeScreen());
-          }),
+        QuizRepositoryProvider(
+          quizRepository: mockRepository,
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => CorrectAnswerStore(),
+              ),
+            ],
+            child: Builder(builder: (context) {
+              return const MaterialApp(home: WelcomeScreen());
+            }),
+          ),
         ),
       );
 

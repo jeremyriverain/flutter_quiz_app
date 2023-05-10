@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quiz/models/quiz_response.dart';
+import 'package:flutter_quiz/repositories/quiz_repository_provider.dart';
 import 'package:flutter_quiz/screens/quiz_screen/quiz_item.dart';
 import 'package:flutter_quiz/screens/quiz_screen/score.dart';
 import 'package:flutter_quiz/theme_constants.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutter_quiz/repositories/quiz_repository.dart';
 
 class QuizScreen extends StatelessWidget {
   const QuizScreen({super.key});
@@ -42,8 +41,7 @@ class QuizScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.only(left: 20, top: 20, right: 20.0),
           child: FutureProvider<QuizResponse?>(
-            create: (_) =>
-                Provider.of<QuizRepository>(context, listen: false).fetchQuiz(),
+            create: (_) => QuizRepositoryProvider.of(context).fetchQuiz(),
             initialData: null,
             child: Consumer<QuizResponse?>(builder: (_, quizResponse, __) {
               if (quizResponse == null) {
