@@ -76,9 +76,9 @@ void main() {
 
       const errorMessage = 'Try again';
       if (index == numberOfQuestions - 1) {
-        expect(find.text(errorMessage), findsOneWidget);
+        expect(find.textContaining(errorMessage), findsOneWidget);
       } else {
-        expect(find.text(errorMessage), findsNothing);
+        expect(find.textContaining(errorMessage), findsNothing);
       }
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
@@ -126,9 +126,9 @@ void main() {
 
       const successMessage = 'Bravo';
       if (index == numberOfQuestions - 1) {
-        expect(find.text(successMessage), findsOneWidget);
+        expect(find.textContaining(successMessage), findsOneWidget);
       } else {
-        expect(find.text(successMessage), findsNothing);
+        expect(find.textContaining(successMessage), findsNothing);
       }
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
