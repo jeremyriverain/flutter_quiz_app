@@ -25,7 +25,6 @@ class QuizHeaderImage extends StatelessWidget {
           height: heightHeader,
           child: Center(
             child: Text(
-              // ignore: avoid-non-ascii-symbols
               hasWon == true ? 'Bravo ! 🥳' : '🤯 Try again',
               style: Theme.of(context)
                   .textTheme

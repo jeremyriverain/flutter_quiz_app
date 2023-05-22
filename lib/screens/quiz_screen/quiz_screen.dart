@@ -56,9 +56,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 return Center(
                   child: Text(
                     'An error occurred while fetching the quiz.',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                 );
               }

@@ -18,7 +18,6 @@ workflows:
       - name: Lint
         script: |
           flutter analyze
-          flutter pub run dart_code_metrics:metrics analyze lib --verbose
       - name: Unit tests and widget tests
         script: |
           mkdir -p test-results

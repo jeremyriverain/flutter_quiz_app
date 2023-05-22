@@ -8,7 +8,6 @@ class WelcomeScreen extends StatelessWidget {
 
   onStartQuiz(BuildContext context) {
     CorrectAnswerProvider.of(context).reset();
-    // ignore: avoid-ignoring-return-values
     showGeneralDialog(
       context: context,
       pageBuilder: (_, __, ___) {

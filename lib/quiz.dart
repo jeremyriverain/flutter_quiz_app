@@ -16,7 +16,6 @@ class Quiz extends StatelessWidget {
         colorSchemeSeed: const Color(0xFF5472ec),
         textTheme: Theme.of(context)
             .textTheme
-            // ignore: no-equal-arguments
             .apply(bodyColor: Colors.white, displayColor: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
